@@ -59,7 +59,6 @@ const RegisterButton = ({userData, checkBoxStatus}: RegisterButtonParams) => {
         ...errorsClient,
         emailErrors: error.response.data.emailErrors,
       });
-      console.log(error.response.data);
     }
   }
   return (
