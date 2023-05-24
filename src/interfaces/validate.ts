@@ -3,7 +3,7 @@ export interface Validator<T, U> {
 }
 
 export interface Errors {
-  emailErrors: string[];
-  nameErrors: string[];
-  passwordErrors: string[];
+  emailErrors: string;
+  nameErrors: string;
+  passwordErrors: string;
 }

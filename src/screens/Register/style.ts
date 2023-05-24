@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {colors} from '../../styles/colors';
 
 const style = StyleSheet.create({
   container: {
@@ -19,26 +20,18 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 26,
   },
-  errors: {
-    width: '80%',
+  login: {
     display: 'flex',
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular',
+    marginTop: 150,
     alignSelf: 'center',
-    textAlign: 'left',
-    position: 'relative',
-    top: -10,
   },
-  errorsText: {
-    width: '100%',
-    color: 'red',
+  loginClickable: {
+    fontSize: 14,
+    fontFamily: 'Poppins-SemiBold',
+    color: colors.pink,
   },
-  terms: {
-    color: '#00000080',
-    width: '90%',
-    display: 'flex',
-    alignSelf: 'center',
-    marginBottom: 40,
-  },
-  termsMarked: {color: '#000000'},
 });
 
 //   borderColor: 'red',

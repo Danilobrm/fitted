@@ -19,6 +19,7 @@ const style = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: 16,
+    fontFamily: 'Poppins-Regular',
   },
 });
 

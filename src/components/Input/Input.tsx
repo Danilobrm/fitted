@@ -14,7 +14,7 @@ const Input = ({icon, placeholder, hideText, setText, text, type}: IInput) => {
         style={style.input}
         value={text}
         onChangeText={value => setText(value)}
-        maxLength={20}
+        maxLength={30}
         secureTextEntry={hideText}
         onFocus={() => setDisplay('none')}
         onBlur={() => !text && setDisplay('flex')}
@@ -23,9 +23,11 @@ const Input = ({icon, placeholder, hideText, setText, text, type}: IInput) => {
       <View style={style.placeholder}>
         <Image source={icon} />
       </View>
-      <Text style={placeholderStyle(display).placeholderText}>
-        {placeholder}
-      </Text>
+      {!text && (
+        <Text style={placeholderStyle(display).placeholderText}>
+          {placeholder}
+        </Text>
+      )}
     </View>
   );
 };
