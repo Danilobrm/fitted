@@ -7,6 +7,7 @@ import {IUserData} from '../../../../interfaces/userData';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../..';
+import {Errors} from '../../../../interfaces/validate';
 
 // import { Container } from './styles';
 
@@ -27,8 +28,13 @@ const RegisterButton = ({userData, checkBoxStatus}: RegisterButtonParams) => {
     const validateUser = new ValidateUserRegister();
     const errorsClient = validateUser.validate(userData);
 
+    for (let error in errorsClient) {
+      if (errorsClient[error as keyof Errors]) {
+        setErrors(errorsClient);
+      }
+    }
+
     if (errorsClient.emailErrors) {
-      setErrors(errorsClient);
       return;
     }
 
@@ -40,8 +46,6 @@ const RegisterButton = ({userData, checkBoxStatus}: RegisterButtonParams) => {
         password: password,
       });
 
-      console.log(user.status);
-
       if (user.status === 200) {
         setErrors({nameErrors: '', emailErrors: '', passwordErrors: ''});
         setName('');
@@ -51,8 +55,11 @@ const RegisterButton = ({userData, checkBoxStatus}: RegisterButtonParams) => {
         navigate('Login');
       }
     } catch (error: any) {
-      errorsClient.emailErrors = error.response.data.email.message;
-      setErrors(errorsClient);
+      setErrors({
+        ...errorsClient,
+        emailErrors: error.response.data.emailErrors,
+      });
+      console.log(error.response.data);
     }
   }
   return (

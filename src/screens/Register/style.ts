@@ -20,21 +20,26 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 26,
   },
-  login: {
-    display: 'flex',
-    fontSize: 14,
-    fontFamily: 'Poppins-Regular',
-    marginTop: 150,
-    alignSelf: 'center',
-  },
-  loginClickable: {
-    fontSize: 14,
-    fontFamily: 'Poppins-SemiBold',
-    color: colors.pink,
-  },
 });
+
+const loginOptionStyle = (marginTop: number) =>
+  StyleSheet.create({
+    login: {
+      display: 'flex',
+      fontSize: 14,
+      fontFamily: 'Poppins-Regular',
+      marginTop: marginTop,
+      alignSelf: 'center',
+    },
+    loginClickable: {
+      fontSize: 14,
+      fontFamily: 'Poppins-SemiBold',
+      color: colors.pink,
+    },
+  });
 
 //   borderColor: 'red',
 //   borderWidth: 1,
 
 export default style;
+export {loginOptionStyle};

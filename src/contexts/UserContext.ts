@@ -7,6 +7,11 @@ const UserContext = createContext<UserContextProtocol>({
   setPassword: () => '',
   setErrors: () => {},
   setToggleCheckBox: () => false,
+  errors: {
+    nameErrors: '',
+    emailErrors: '',
+    passwordErrors: '',
+  },
 });
 
 export {UserContext};

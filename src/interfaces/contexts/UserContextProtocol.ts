@@ -6,4 +6,5 @@ export interface UserContextProtocol {
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   setErrors: React.Dispatch<React.SetStateAction<Errors>>;
   setToggleCheckBox: React.Dispatch<React.SetStateAction<boolean>>;
+  errors: Errors;
 }

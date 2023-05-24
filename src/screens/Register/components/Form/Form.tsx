@@ -23,7 +23,14 @@ const Form = () => {
   return (
     <View>
       <UserContext.Provider
-        value={{setName, setEmail, setPassword, setErrors, setToggleCheckBox}}>
+        value={{
+          setName,
+          setEmail,
+          setPassword,
+          setErrors,
+          setToggleCheckBox,
+          errors,
+        }}>
         <View>
           <Input
             icon={require('../../../../assets/input-icons/Profile.png')}
