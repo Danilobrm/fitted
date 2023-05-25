@@ -1,32 +1,45 @@
-import React, {useState} from 'react';
-import {Image, Text, TextInput, View} from 'react-native';
-import style, {placeholderStyle} from './style';
-import {IInput} from '../../interfaces/input';
+import React from 'react';
+import {Image, ImageSourcePropType, Text, TextInput, View} from 'react-native';
+import style from './style';
+import {IUserRegisterData} from '../../interfaces/userData';
 
-// import { Container } from './styles';
+export interface IInput {
+  icon: ImageSourcePropType;
+  placeholder: string;
+  hideText?: true;
+  setText: (field: keyof IUserRegisterData, value: string) => void;
+  text: string;
+  type: 'email' | 'text';
+  field: keyof IUserRegisterData;
+}
 
-const Input = ({icon, placeholder, hideText, setText, text, type}: IInput) => {
-  const [display, setDisplay] = useState<'flex' | 'none'>('flex');
-
+const Input = ({
+  icon,
+  placeholder,
+  hideText,
+  setText,
+  text,
+  type,
+  field,
+}: IInput) => {
   return (
     <View style={style.container}>
       <TextInput
         style={style.input}
         value={text}
-        onChangeText={value => setText(value)}
+        onChangeText={value => setText(field, value)}
         maxLength={30}
         secureTextEntry={hideText}
-        onFocus={() => setDisplay('none')}
-        onBlur={() => !text && setDisplay('flex')}
         inputMode={type}
       />
       <View style={style.placeholder}>
         <Image source={icon} />
       </View>
+
       {!text && (
-        <Text style={placeholderStyle(display).placeholderText}>
-          {placeholder}
-        </Text>
+        <View pointerEvents="none">
+          <Text style={style.placeholderText}>{placeholder}</Text>
+        </View>
       )}
     </View>
   );

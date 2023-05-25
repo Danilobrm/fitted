@@ -2,8 +2,8 @@ export interface Validator<T, U> {
   validate(data: T): U;
 }
 
-export interface Errors {
-  emailErrors: string;
-  nameErrors: string;
-  passwordErrors: string;
+export interface IErrors {
+  nameErrors?: string;
+  emailErrors?: string;
+  passwordErrors?: string;
 }

@@ -34,20 +34,12 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  placeholderText: {
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+    color: '#230A06',
+    display: 'flex',
+  },
 });
 
-const placeholderStyle = (display: 'flex' | 'none') =>
-  StyleSheet.create({
-    placeholderText: {
-      fontSize: 12,
-      fontFamily: 'Poppins-Regular',
-      color: '#230A06',
-      display: display,
-    },
-  });
-
-//   borderColor: 'red',
-//   borderWidth: 1,
-
 export default style;
-export {placeholderStyle};

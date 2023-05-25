@@ -1,41 +1,22 @@
-import React, {useContext} from 'react';
-import {View, Text, Image} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../..';
-import style, {loginOptionStyle} from './style';
-import Form from './components/Form/Form';
-import {UserContext} from '../../contexts/UserContext';
+import React from 'react';
+import {View} from 'react-native';
+import style from './style';
+import {RegisterForm} from '../../components/Authentication/Form/Forms';
+import AuthHeader from '../../components/Authentication/AuthHeader/AuthHeader';
+import AuthFooter from '../../components/Authentication/AuthFooter/AuthFooter';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
-
-export default function Register({navigation}: Props) {
-  const {errors} = useContext(UserContext);
-
-  let marginTopOptionToLogIn = 150;
-
-  for (const key in errors) {
-    if (Object.hasOwnProperty.call(errors, key)) {
-      marginTopOptionToLogIn -= 20;
-    }
-  }
+export default function Register() {
   return (
     <View style={style.container}>
-      <View style={style.logo}>
-        <Image source={require('../../assets/fitted_logo.png')} />
-      </View>
+      <AuthHeader screenName="Sign Up" />
 
-      <Text style={style.screenName}>Sign Up</Text>
+      <RegisterForm />
 
-      <Form />
-
-      <Text style={loginOptionStyle(marginTopOptionToLogIn).login}>
-        Already have an account?{' '}
-        <Text
-          onPress={() => navigation.navigate('Login')}
-          style={loginOptionStyle(marginTopOptionToLogIn).loginClickable}>
-          Log In
-        </Text>
-      </Text>
+      <AuthFooter
+        route="Login"
+        text="Already have an account?"
+        endpoint="Log In"
+      />
     </View>
   );
 }

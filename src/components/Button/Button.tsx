@@ -1,9 +1,12 @@
 import React from 'react';
 import {View, Pressable, Text} from 'react-native';
 import style, {buttonStyle} from './style';
-import {IButton} from '../../interfaces/button';
 
-// import { Container } from './styles';
+interface IButton {
+  title: string;
+  conditionToDisable: boolean;
+  action: () => void;
+}
 
 const ButtonComponent = ({conditionToDisable, title, action}: IButton) => {
   return (
