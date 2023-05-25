@@ -15,6 +15,7 @@ import {
   initialUserRegisterErrors,
   initialUserRegisterState,
 } from './Register/defaultFields';
+import ResetPassword from './Login/ResetPassword/ResetPassword';
 
 export const RegisterForm = () => {
   const {navigate} =
@@ -100,6 +101,66 @@ export const RegisterForm = () => {
           !userData.email ||
           !userData.password
         }
+        action={handleSubmit}
+      />
+    </View>
+  );
+};
+
+export const LoginForm = () => {
+  const [userData, setUserData] = useState<IUserRegisterData>(
+    initialUserRegisterState,
+  );
+
+  const [fieldErrors, setFieldErrors] = useState<IErrors>({
+    emailErrors: '',
+    passwordErrors: '',
+  });
+
+  function handleInputChange(field: keyof typeof userData, value: string) {
+    setUserData(prevState => ({...prevState, [field]: value}));
+  }
+
+  async function handleSubmit() {
+    console.log('logar');
+    setFieldErrors({});
+    setUserData(initialUserRegisterState);
+  }
+
+  return (
+    <View>
+      <View>
+        <Input
+          icon={require('../../../assets/input-icons/Message.png')}
+          placeholder="Email"
+          setText={handleInputChange}
+          text={userData.email}
+          type="email"
+          field="email"
+        />
+
+        {fieldErrors.emailErrors && <Errors error={fieldErrors.emailErrors} />}
+
+        <Input
+          icon={require('../../../assets/input-icons/Lock.png')}
+          placeholder="Password"
+          setText={handleInputChange}
+          text={userData.password}
+          hideText
+          type="text"
+          field="password"
+        />
+
+        {fieldErrors.passwordErrors && (
+          <Errors error={fieldErrors.passwordErrors} />
+        )}
+      </View>
+
+      <ResetPassword />
+
+      <ButtonComponent
+        title="Log in"
+        conditionToDisable={!userData.email || !userData.password}
         action={handleSubmit}
       />
     </View>

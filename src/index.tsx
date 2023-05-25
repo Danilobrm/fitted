@@ -28,7 +28,6 @@ export default function App() {
             component={Login}
             options={{
               headerShown: false,
-              presentation: 'modal',
               animationTypeForReplace: 'push',
               animation: 'slide_from_right',
             }}
