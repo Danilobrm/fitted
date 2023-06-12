@@ -1,16 +1,16 @@
 import React from 'react';
 import {Image, ImageSourcePropType, Text, TextInput, View} from 'react-native';
 import style from './style';
-import {IUserRegisterData} from '../../interfaces/userData';
+import {IUserData} from '../../interfaces/userData';
 
 export interface IInput {
   icon: ImageSourcePropType;
   placeholder: string;
   hideText?: true;
-  setText: (field: keyof IUserRegisterData, value: string) => void;
+  setText: (field: keyof IUserData, value: string) => void;
   text: string;
   type: 'email' | 'text';
-  field: keyof IUserRegisterData;
+  field: keyof IUserData;
 }
 
 const Input = ({

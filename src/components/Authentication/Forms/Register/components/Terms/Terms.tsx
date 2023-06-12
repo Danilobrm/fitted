@@ -2,7 +2,7 @@ import CheckBox from '@react-native-community/checkbox';
 import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import style from './style';
-import {CheckBoxContext} from '../../../../../contexts/CheckBox';
+import {CheckBoxContext} from '../../../../../../contexts/CheckBox';
 
 export default function RegisterTerms() {
   const {toggleCheckBox, setToggleCheckBox} = useContext(CheckBoxContext);
