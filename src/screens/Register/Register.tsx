@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import style from './style';
-import {RegisterForm} from '../../components/Authentication/Form/Forms';
+import {RegisterForm} from '../../components/Authentication/Forms/Register/RegisterForm';
 import AuthHeader from '../../components/Authentication/AuthHeader/AuthHeader';
 import AuthFooter from '../../components/Authentication/AuthFooter/AuthFooter';
 

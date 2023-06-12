@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import style from './style';
 import AuthHeader from '../../components/Authentication/AuthHeader/AuthHeader';
 import AuthFooter from '../../components/Authentication/AuthFooter/AuthFooter';
-import {LoginForm} from '../../components/Authentication/Form/Forms';
+import {LoginForm} from '../../components/Authentication/Forms/Login/LoginForm';
 
 export default function Login() {
   return (
