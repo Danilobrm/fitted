@@ -3,26 +3,24 @@ import {View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Input from '../../../Input/Input';
-
-import {IErrors} from '../../../../interfaces/validate';
 import Errors from '../Errors/Errors';
 import ButtonComponent from '../../../Button/Button';
 import {CheckBoxContext} from '../../../../contexts/CheckBox';
-import {RootStackParamList} from '../../../..';
-import HandleSubmit from '../handleSubmit';
-import {IUserData} from '../../../../interfaces/userData';
 import RegisterTerms from './components/Terms/Terms';
+import {RootStackParamList} from '../../../../routes/auth.routes';
+import APIHelpers from '../../../../utils/api';
+import {ValidateUser} from '../../../../utils/validation/validateUser';
+
+type IUserData = {[key: string]: string};
+
+let lastRequestData: IUserData = {};
 
 export const RegisterForm = () => {
   const {navigate} =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-  const [fieldErrors, setFieldErrors] = useState<IErrors>({});
+  const [userData, setUserData] = useState<IUserData>({});
+  const [fieldErrors, setFieldErrors] = useState<IUserData>({});
 
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
@@ -31,22 +29,51 @@ export const RegisterForm = () => {
   }
 
   async function handleSubmit() {
-    const actions = new HandleSubmit();
-
-    const createdAccount = await actions
-      .register({userData, setFieldErrors})
-      .then(status => status);
-
-    if (!createdAccount) {
+    if (userData === lastRequestData) {
       return;
     }
+
+    const register = await registerUser();
+
+    if (!register) {
+      lastRequestData = userData;
+      return;
+    }
+
     navigate('Login');
-    setUserData({
-      name: '',
-      email: '',
-      password: '',
-    });
+    setFieldErrors({});
+    setUserData({});
     setToggleCheckBox(false);
+  }
+
+  async function registerUser() {
+    const validateUserData = validateData();
+
+    if (!validateUserData) {
+      return false;
+    }
+
+    // register user on database
+    const apiActions = new APIHelpers();
+    const register = await apiActions.post('/register', userData);
+
+    if (register.status === 400) {
+      setFieldErrors(register.data);
+      return false;
+    }
+    return true;
+  }
+
+  function validateData() {
+    // validate data in client
+    const validateUser = new ValidateUser();
+    const errorsClient = validateUser.validateRegister(userData);
+    setFieldErrors(errorsClient);
+
+    if (errorsClient.email) {
+      return false;
+    }
+    return true;
   }
 
   return (
@@ -55,13 +82,13 @@ export const RegisterForm = () => {
         <Input
           icon={require('../../../../assets/input-icons/Profile.png')}
           placeholder="Name"
+          type="text"
           setText={handleInputChange}
           text={userData.name}
-          type="text"
           field="name"
         />
 
-        {fieldErrors.nameErrors && <Errors error={fieldErrors.nameErrors} />}
+        {fieldErrors.name && <Errors error={fieldErrors.name} />}
 
         <Input
           icon={require('../../../../assets/input-icons/Message.png')}
@@ -72,7 +99,7 @@ export const RegisterForm = () => {
           field="email"
         />
 
-        {fieldErrors.emailErrors && <Errors error={fieldErrors.emailErrors} />}
+        {fieldErrors.email && <Errors error={fieldErrors.email} />}
 
         <Input
           icon={require('../../../../assets/input-icons/Lock.png')}
@@ -84,9 +111,7 @@ export const RegisterForm = () => {
           field="password"
         />
 
-        {fieldErrors.passwordErrors && (
-          <Errors error={fieldErrors.passwordErrors} />
-        )}
+        {fieldErrors.password && <Errors error={fieldErrors.password} />}
       </View>
 
       <CheckBoxContext.Provider value={{toggleCheckBox, setToggleCheckBox}}>
