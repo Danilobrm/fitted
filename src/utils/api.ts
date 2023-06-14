@@ -2,12 +2,14 @@ import {api} from '../api/api';
 
 export class APIHelpers {
   async post(url: string, data: object) {
-    const response = await api.post(url, data);
+    try {
+      const post = await api.post(url, data);
 
-    return response;
+      return post;
+    } catch (error: any) {
+      return error.response;
+    }
   }
 }
 
-const apiActions = new APIHelpers();
-
-export default apiActions;
+export default APIHelpers;
