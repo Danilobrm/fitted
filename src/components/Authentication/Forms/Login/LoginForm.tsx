@@ -1,39 +1,54 @@
 import React, {useState} from 'react';
-import {IErrors} from '../../../../interfaces/validate';
-import HandleSubmit from '../handleSubmit';
 import {View} from 'react-native';
 import Input from '../../../Input/Input';
 import Errors from '../Errors/Errors';
-import {IUserData} from '../../../../interfaces/userData';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import ButtonComponent from '../../../Button/Button';
+import APIHelpers from '../../../../utils/api';
+
+let lastRequestData: any = null;
 
 export const LoginForm = () => {
-  const [userData, setUserData] = useState({
-    email: '',
-    password: '',
-  });
+  const [userData, setUserData] = useState<{[key: string]: string}>({});
+  const [token, setToken] = useState<string>('');
+  const [fieldErrors, setFieldErrors] = useState<{[key: string]: string}>({});
 
-  const [fieldErrors, setFieldErrors] = useState<IErrors>({});
-
-  function handleInputChange(field: keyof IUserData, value: string) {
+  function handleInputChange(
+    field: keyof {[key: string]: string},
+    value: string,
+  ) {
     setUserData(prevState => ({...prevState, [field]: value}));
   }
 
   async function handleSubmit() {
-    const actions = new HandleSubmit();
-
-    const authenticate = await actions
-      .login({userData, setFieldErrors})
-      .then(status => status);
-
-    if (!authenticate) {
+    if (userData === lastRequestData) {
       return;
     }
-    setUserData({
-      email: '',
-      password: '',
-    });
+
+    const authenticate = await authUser();
+
+    if (!authenticate) {
+      lastRequestData = userData;
+      return;
+    }
+
+    console.log(token);
+    setFieldErrors({});
+    setUserData({});
+  }
+
+  async function authUser() {
+    // authenticate user
+    const apiActions = new APIHelpers();
+    const authenticate = await apiActions.post('/login', userData);
+
+    if (authenticate.status === 400) {
+      setFieldErrors(authenticate.data);
+      return false;
+    }
+
+    setToken(authenticate.data.token);
+    return true;
   }
 
   return (
@@ -48,7 +63,7 @@ export const LoginForm = () => {
           field="email"
         />
 
-        {fieldErrors.emailErrors && <Errors error={fieldErrors.emailErrors} />}
+        {fieldErrors.email && <Errors error={fieldErrors.email} />}
 
         <Input
           icon={require('../../../../assets/input-icons/Lock.png')}
@@ -60,9 +75,7 @@ export const LoginForm = () => {
           field="password"
         />
 
-        {fieldErrors.passwordErrors && (
-          <Errors error={fieldErrors.passwordErrors} />
-        )}
+        {fieldErrors.password && <Errors error={fieldErrors.password} />}
       </View>
 
       <ResetPassword />
